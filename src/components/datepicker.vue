@@ -1,6 +1,43 @@
 <template>
   <div id="datepicker">
-  
+    <div class="day-panel">
+      <div class="switch-view">
+        <div class="arrow">prev</div>
+        <div class="select">{{year}} {{monthList[month]}}</div>
+        <div class="arrow">next</div>
+      </div>
+      <div class="week-view">
+        <div class="week"
+             v-for="item in weekList">{{item}}</div>
+      </div>
+      <div class="day-view">
+        <div class="day"
+             v-for="item in dayList">{{item.value}}
+        </div>
+      </div>
+    </div>
+    <div class="month-panel">
+      <div class="switch-view">
+        <div class="arrow">prev</div>
+        <div class="select">{{year}}</div>
+        <div class="arrow">next</div>
+      </div>
+      <div class="month-view">
+        <div class="month"
+             v-for="item in monthList">
+          {{item}}
+        </div>
+      </div>
+    </div>
+    <div class="year-panel">
+      <div class="select-view">
+        <div class="slect">{{year}} - {{year + 11}}</div>
+      </div>
+      <div class="year-view">
+        <div class="year"
+             v-for="item in 12">{{year + item -1}}</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -47,6 +84,54 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+#datepicker {
+  padding: 0 2%;
+}
 
+.switch-view {
+  display: flex;
+  justify-content: space-between;
+  .arrow {
+    width: 25%;
+  }
+  .select {
+    width: 50%;
+  }
+}
+
+.week-view {
+  display: flex;
+  justify-content: space-between;
+  .week {
+    width: 13%;
+  }
+}
+
+.day-view {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  .day {
+    width: 13%;
+  }
+}
+
+.month-view {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  .month {
+    width: 25%;
+  }
+}
+
+.year-view {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  .year {
+    width: 25%;
+  }
+}
 </style>

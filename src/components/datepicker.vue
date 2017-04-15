@@ -1,43 +1,54 @@
 <template>
   <div id="datepicker">
-    <div class="day-panel">
-      <div class="switch-view">
-        <div class="arrow">prev</div>
-        <div class="select">{{year}} {{monthList[month]}}</div>
-        <div class="arrow">next</div>
-      </div>
-      <div class="week-view">
-        <div class="week"
-             v-for="item in weekList">{{item}}</div>
-      </div>
-      <div class="day-view">
-        <div class="day"
-             v-for="item in dayList">{{item.value}}
+    <input type="text"
+           class="tittle-input"></input>
+    <div class="panel">
+      <div class="panel-tittle"><span>选时间</span></div>
+      <div class="panel-body">
+        <div class="day-panel"
+             v-show="showpanel == 'day'">
+          <div class="switch-view">
+            <div class="arrow">prev</div>
+            <div class="select">{{year}} {{monthList[month]}}</div>
+            <div class="arrow">next</div>
+          </div>
+          <div class="week-view">
+            <div class="week"
+                 v-for="item in weekList">{{item}}</div>
+          </div>
+          <div class="day-view">
+            <div class="day"
+                 v-for="item in dayList">{{item.value}}
+            </div>
+          </div>
+        </div>
+        <div class="month-panel"
+             v-show="showpanel == 'month'">
+          <div class="switch-view">
+            <div class="arrow">prev</div>
+            <div class="select">{{year}}</div>
+            <div class="arrow">next</div>
+          </div>
+          <div class="month-view">
+            <div class="month"
+                 v-for="item in monthList">
+              {{item}}
+            </div>
+          </div>
+        </div>
+        <div class="year-panel"
+             v-show="showpanel == 'year'">
+          <div class="switch-view">
+            <div class="select">{{year}} - {{year + 11}}</div>
+          </div>
+          <div class="year-view">
+            <div class="year"
+                 v-for="item in 12">{{year + item -1}}</div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="month-panel">
-      <div class="switch-view">
-        <div class="arrow">prev</div>
-        <div class="select">{{year}}</div>
-        <div class="arrow">next</div>
-      </div>
-      <div class="month-view">
-        <div class="month"
-             v-for="item in monthList">
-          {{item}}
-        </div>
-      </div>
-    </div>
-    <div class="year-panel">
-      <div class="select-view">
-        <div class="slect">{{year}} - {{year + 11}}</div>
-      </div>
-      <div class="year-view">
-        <div class="year"
-             v-for="item in 12">{{year + item -1}}</div>
-      </div>
-    </div>
+  
   </div>
 </template>
 
@@ -47,7 +58,7 @@ export default {
   data() {
     let now = new Date()
     return {
-      showtable: 'year',
+      showpanel: 'day',
       year: now.getFullYear(),
       month: now.getMonth(),
       day: now.getDate(),
@@ -79,32 +90,35 @@ export default {
       }
       return dayList
     }
+  },
+  methods: {
   }
 
 }
 </script>
 
 <style lang="scss">
-#datepicker {
-  padding: 0 2%;
-}
-
 .switch-view {
   display: flex;
   justify-content: space-between;
+  font-weight: 700;
+  line-height: 5vh;
+  cursor: pointer;
   .arrow {
-    width: 25%;
+    flex-grow: 1;
   }
   .select {
-    width: 50%;
+    flex-grow: 2;
   }
 }
 
 .week-view {
   display: flex;
   justify-content: space-between;
+  font-weight: 700;
   .week {
     width: 13%;
+    line-height: 6.5vh;
   }
 }
 
@@ -114,6 +128,8 @@ export default {
   flex-wrap: wrap;
   .day {
     width: 13%;
+    line-height: 6.5vh;
+    cursor: pointer;
   }
 }
 
@@ -123,6 +139,8 @@ export default {
   flex-wrap: wrap;
   .month {
     width: 25%;
+    line-height: 8vh;
+    cursor: pointer;
   }
 }
 
@@ -132,6 +150,21 @@ export default {
   flex-wrap: wrap;
   .year {
     width: 25%;
+    line-height: 8vh;
+    cursor: pointer;
+  }
+}
+
+.panel {
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, .12)
+}
+
+.panel-tittle {
+  border-radius: 4px 4px 0 0;
+  text-align: left;
+  background-color: #e2e2e2;
+  span {
+    line-height: 6vh;
   }
 }
 </style>

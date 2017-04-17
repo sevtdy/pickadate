@@ -1,17 +1,26 @@
 <template>
   <div id="datepicker">
     <input type="text"
-           class="tittle-input"></input>
+           class="tittle-input"
+           placeholder="aaaaa"></input>
+    <div class="submit">
+      <div class="submit-tips">▲输入</div>
+      <div class="submit-button">提交</div>
+    </div>
     <div class="panel">
       <div class="panel-tittle"><span>选时间</span></div>
       <div class="panel-body">
         <div class="day-panel"
              v-show="showPanle == 'day'">
           <div class="switch-view">
-            <div class="arrow">prev</div>
+            <div class="arrow"
+                 :class="{disable:year >= tempYear && month >= tempMonth}"
+                 @click="selectPrev()">prev</div>
             <div class="select"
                  @click="switchMonth()">{{tempYear}} {{monthList[tempMonth]}}</div>
-            <div class="arrow">next</div>
+            <div class="arrow"
+                 :class="{disable:year+11 <= tempYear}"
+                 @click="selectNext()">next</div>
           </div>
           <div class="week-view">
             <div class="week"
@@ -19,7 +28,7 @@
           </div>
           <div class="day-view">
             <div class="day"
-                 :class="[{isnow:day == item.value && month == tempMonth && year == tempYear},{disable:item.previousMonth || item.nextMonth},{isselect:isSelect(item)}]"
+                 :class="{isnow:day == item.value && month == tempMonth && year == tempYear, disable:item.previousMonth || item.nextMonth,isselect:isSelect(item)}"
                  @click="selectDay(item)"
                  v-for="item in dayList">{{item.value}}
             </div>
@@ -28,14 +37,18 @@
         <div class="month-panel"
              v-show="showPanle == 'month'">
           <div class="switch-view">
-            <div class="arrow">prev</div>
+            <div class="arrow"
+                 :class="{disable: year >= tempYear}"
+                 @click="selectPrev()">prev</div>
             <div class="select"
                  @click="switchYear()">{{tempYear}}</div>
-            <div class="arrow">next</div>
+            <div class="arrow"
+                 :class="{disable: year+11 <= tempYear}"
+                 @click="selectNext()">next</div>
           </div>
           <div class="month-view">
             <div class="month"
-                 :class="[{isnow: month == index && year == tempYear},{disable: month > index && year == tempYear}]"
+                 :class="{isnow: month == index && year == tempYear, disable: month > index && year == tempYear}"
                  @click="selectMonth(index)"
                  v-for="(item,index) in monthList">
               {{item}}
@@ -49,7 +62,7 @@
           </div>
           <div class="year-view">
             <div class="year"
-                 :class="[{isnow:year == item}]"
+                 :class="{isnow:year == item}"
                  @click="selectYear(item)"
                  v-for="item in yearList">{{item}}</div>
           </div>
@@ -145,12 +158,54 @@ export default {
         }
         if (flag == 0) { return false } else { return true }
       }
+    },
+    selectNext() {
+      if (this.showPanle == 'day') {
+        if (this.tempMonth < 11) {
+          this.tempMonth++
+        } else {
+          this.tempMonth = 0
+          this.tempYear++
+        }
+      } else {
+        this.tempYear++
+      }
+    },
+    selectPrev() {
+      if (this.showPanle == 'day') {
+        if (this.tempMonth > 0) {
+          this.tempMonth--
+        } else {
+          this.tempMonth = 11
+          this.tempYear--
+        }
+      } else {
+        this.tempYear--
+      }
     }
   }
 }
 </script>
 
 <style lang="scss">
+#datepicker {
+  user-select: none;
+}
+
+.tittle-input {
+  border-style: solid;
+  border-top-width: 0px;
+  border-right-width: 0px;
+  border-bottom-width: 1.5px;
+  border-left-width: 0px;
+  border-color: #888888;
+  width: 100%;
+  margin-bottom: 10px;
+  font-size: 1.2em;
+  line-height: 1.6em;
+  outline: none;
+}
+
 .switch-view {
   display: flex;
   justify-content: space-between;
@@ -160,11 +215,15 @@ export default {
   .arrow {
     flex-grow: 0;
     margin: 4px;
+    padding: 3px;
+    border-radius: 3px;
   }
   .select {
     flex-grow: 1;
     margin: 0 auto;
     margin: 4px;
+    padding: 3px;
+    border-radius: 3px;
   }
   div:hover {
     background-color: #eeeeee;
@@ -203,7 +262,7 @@ export default {
   justify-content: space-between;
   flex-wrap: wrap;
   .month {
-    width: 25%;
+    width: 20%;
     margin: 4px;
     line-height: 6vh;
     cursor: pointer;
@@ -240,6 +299,26 @@ export default {
   background-color: #eeeeee;
   span {
     line-height: 6vh;
+  }
+}
+
+.submit {
+  display: flex;
+  justify-content: space-between;
+  margin: 0px 6px 6px 0px;
+  line-height: 1.4em;
+  .submit-tips{
+    padding: 4px 6px 4px 6px;
+    color: white;
+    background-color: #888888;
+    border-radius: 3px;
+  }
+  .submit-button{
+    background: #dbefdc;
+    color: #9aa49a;
+    border-radius: 3px;
+    padding: 6px;
+    cursor: pointer;
   }
 }
 

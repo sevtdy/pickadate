@@ -2,7 +2,7 @@
   <div id="datepicker">
     <input type="text"
            class="tittle-input"
-           placeholder="aaaaa"></input>
+           placeholder="aaaaa">
     <div class="submit">
       <div class="submit-tips">▲输入</div>
       <div class="submit-button">提交</div>
@@ -187,9 +187,14 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 #datepicker {
   user-select: none;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
 }
 
 .tittle-input {
@@ -233,10 +238,11 @@ export default {
 .week-view {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   font-weight: 700;
   .week {
-    width: 13%;
-    margin: 4px;
+    width: 12.8%;
+    margin: 0.1%;
     line-height: 4.5vh;
   }
 }
@@ -246,8 +252,8 @@ export default {
   justify-content: space-between;
   flex-wrap: wrap;
   .day {
-    width: 13%;
-    margin: 4px;
+    width: 12.8%;
+    margin: 0.1%;
     line-height: 4vh;
     cursor: pointer;
   }
@@ -307,13 +313,13 @@ export default {
   justify-content: space-between;
   margin: 0px 6px 6px 0px;
   line-height: 1.4em;
-  .submit-tips{
+  .submit-tips {
     padding: 4px 6px 4px 6px;
     color: white;
     background-color: #888888;
     border-radius: 3px;
   }
-  .submit-button{
+  .submit-button {
     background: #dbefdc;
     color: #9aa49a;
     border-radius: 3px;

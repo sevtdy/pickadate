@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+ <div> <!--"id=app"-->
     <!--<datepicker></datepicker>-->
      <router-view></router-view>
   </div>
@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: 'app',
+  // name: 'app',
   data() {
     return {
       msg: 'Welcome to Your Vue.js App'

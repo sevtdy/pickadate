@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <datepicker></datepicker>
+    <!--<datepicker></datepicker>-->
+     <router-view></router-view>
   </div>
 </template>
 
 <script>
-import datepicker from './components/datepicker.vue'
 export default {
   name: 'app',
   data() {
@@ -13,17 +13,17 @@ export default {
       msg: 'Welcome to Your Vue.js App'
     }
   },
-  components: { datepicker }
+  // components: { datepicker }
 }
 </script>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin: 0px auto 0px auto;
-}
+// #app {
+//   font-family: 'Avenir', Helvetica, Arial, sans-serif;
+//   -webkit-font-smoothing: antialiased;
+//   -moz-osx-font-smoothing: grayscale;
+//   text-align: center;
+//   color: #2c3e50;
+//   margin: 0px auto 0px auto;
+// }
 </style>

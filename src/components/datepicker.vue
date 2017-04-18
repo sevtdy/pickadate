@@ -28,7 +28,7 @@
           </div>
           <div class="day-view">
             <div class="day"
-                 :class="{isnow:day == item.value && month == tempMonth && year == tempYear, disable:item.previousMonth || item.nextMonth,isselect:isSelect(item)}"
+                 :class="{isnow:day == item.value && month == tempMonth && year == tempYear, disable:item.previousMonth || item.nextMonth || (day > item.value && year >= tempYear && month >= tempMonth), isselect: isSelect(item)}"
                  @click="selectDay(item)"
                  v-for="item in dayList">{{item.value}}
             </div>

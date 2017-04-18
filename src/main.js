@@ -7,7 +7,7 @@ import App from './App.vue'
 import routes from './routes.js'
 Vue.use(VueRouter)
 const router = new VueRouter({
-  routes // （缩写）相当于 routes: routes
+  routes // ES6缩写语法，相当于routes:routes
 })
 
 new Vue({

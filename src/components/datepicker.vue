@@ -1,10 +1,11 @@
 <template>
   <div id="datepicker">
     <input type="text"
+           v-model="planTittle"
            class="tittle-input"
-           placeholder="aaaaa">
+           placeholder="what's the plan?">
     <div class="submit">
-      <div class="submit-tips">▲输入</div>
+      <div class="submit-tips">▲输入标题</div>
       <div class="submit-button"
            :class="{disable:selectDate.length == 0}"
            @click="submitPlan">提交</div>
@@ -81,7 +82,6 @@ wilddog.initializeApp({
   syncURL: 'https://pickatime.wilddogio.com'
 })
 var ref = wilddog.sync().ref('/')
-
 export default {
   name: 'datepicker',
   data() {
@@ -97,7 +97,8 @@ export default {
       yearList: Array.from({ length: 12 }, (value, index) => now.getFullYear() + index),
       monthList: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       weekList: ['一', '二', '三', '四', '五', '六', '日'],
-      selectDate: []
+      selectDate: [],
+      planTittle: ''
     }
   },
   computed: {
@@ -192,12 +193,18 @@ export default {
       }
     },
     submitPlan() {
+      let link
       this.formatData()
-      //缺少标题
       ref.push({
-        selectDate: this.selectDate,
-        user: null
+        date: this.selectDate,
+        tittle: this.planTittle
       })
+      //获取push后的随机key后跳转页面
+      ref.once('child_added', (snapshot) => {
+        link = snapshot.key()
+        this.$router.push(link)
+      })
+
     },
     formatData() {
       this.selectDate.sort(function (a, b) {

@@ -1,7 +1,7 @@
 <template>
- <div> <!--"id=app"-->
+  <div><!--"id=app"-->
     <!--<datepicker></datepicker>-->
-     <router-view></router-view>
+    <router-view></router-view>
   </div>
 </template>
 

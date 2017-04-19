@@ -5,7 +5,9 @@
            placeholder="aaaaa">
     <div class="submit">
       <div class="submit-tips">▲输入</div>
-      <div class="submit-button">提交</div>
+      <div class="submit-button"
+           :class="{disable:selectDate.length == 0}"
+           @click="submitPlan">提交</div>
     </div>
     <div class="panel">
       <div class="panel-tittle"><span>选时间</span></div>
@@ -74,6 +76,12 @@
 </template>
 
 <script>
+//初始化野狗
+wilddog.initializeApp({
+  syncURL: 'https://pickatime.wilddogio.com'
+})
+var ref = wilddog.sync().ref('/')
+
 export default {
   name: 'datepicker',
   data() {
@@ -182,6 +190,35 @@ export default {
       } else {
         this.tempYear--
       }
+    },
+    submitPlan() {
+      this.formatData()
+      //缺少标题
+      ref.push({
+        selectDate: this.selectDate,
+        user: null
+      })
+    },
+    formatData() {
+      this.selectDate.sort(function (a, b) {
+        if (a.year > b.year) {
+          return 1
+        } else if (a.year < b.year) {
+          return -1
+        } else {
+          if (a.month > a.month) {
+            return 1
+          } else if (a.month < b.month) {
+            return -1
+          } else {
+            if (a.day > b.day) {
+              return 1
+            } else {
+              return -1
+            }
+          }
+        }
+      })
     }
   }
 }

@@ -1,73 +1,45 @@
 <template>
   <div id="datepicker">
-    <input type="text"
-           v-model="planTittle"
-           class="tittle-input"
-           placeholder="what's the plan?">
+    <input type="text" v-model="planTittle" class="tittle-input" placeholder="what's the plan?">
     <div class="submit">
       <div class="submit-tips">▲输入标题</div>
-      <div class="submit-button"
-           :class="{disable:selectDate.length == 0}"
-           @click="submitPlan">提交</div>
+      <div class="submit-button" :class="{disable:selectDate.length == 0}" @click="submitPlan">提交</div>
     </div>
     <div class="panel">
       <div class="panel-tittle"><span>选时间</span></div>
       <div class="panel-body">
-        <div class="day-panel"
-             v-show="showPanle == 'day'">
+        <div class="day-panel" v-show="showPanle == 'day'">
           <div class="switch-view">
-            <div class="arrow"
-                 :class="{disable:year >= tempYear && month >= tempMonth}"
-                 @click="selectPrev()">prev</div>
-            <div class="select"
-                 @click="switchMonth()">{{tempYear}} {{monthList[tempMonth]}}</div>
-            <div class="arrow"
-                 :class="{disable:year+11 <= tempYear}"
-                 @click="selectNext()">next</div>
+            <div class="arrow" :class="{disable:year >= tempYear && month >= tempMonth}" @click="selectPrev()">prev</div>
+            <div class="select" @click="switchMonth()">{{tempYear}} {{monthList[tempMonth]}}</div>
+            <div class="arrow" :class="{disable:year+11 <= tempYear}" @click="selectNext()">next</div>
           </div>
           <div class="week-view">
-            <div class="week"
-                 v-for="item in weekList">{{item}}</div>
+            <div class="week" v-for="item in weekList">{{item}}</div>
           </div>
           <div class="day-view">
-            <div class="day"
-                 :class="{isnow:day == item.value && month == tempMonth && year == tempYear, disable:item.previousMonth || item.nextMonth || (day > item.value && year >= tempYear && month >= tempMonth), isselect: isSelect(item)}"
-                 @click="selectDay(item)"
-                 v-for="item in dayList">{{item.value}}
+            <div class="day" :class="{isnow:day == item.value && month == tempMonth && year == tempYear, disable:item.previousMonth || item.nextMonth || (day > item.value && year >= tempYear && month >= tempMonth), isselect: isSelect(item)}" @click="selectDay(item)" v-for="item in dayList">{{item.value}}
             </div>
           </div>
         </div>
-        <div class="month-panel"
-             v-show="showPanle == 'month'">
+        <div class="month-panel" v-show="showPanle == 'month'">
           <div class="switch-view">
-            <div class="arrow"
-                 :class="{disable: year >= tempYear}"
-                 @click="selectPrev()">prev</div>
-            <div class="select"
-                 @click="switchYear()">{{tempYear}}</div>
-            <div class="arrow"
-                 :class="{disable: year+11 <= tempYear}"
-                 @click="selectNext()">next</div>
+            <div class="arrow" :class="{disable: year >= tempYear}" @click="selectPrev()">prev</div>
+            <div class="select" @click="switchYear()">{{tempYear}}</div>
+            <div class="arrow" :class="{disable: year+11 <= tempYear}" @click="selectNext()">next</div>
           </div>
           <div class="month-view">
-            <div class="month"
-                 :class="{isnow: month == index && year == tempYear, disable: month > index && year == tempYear}"
-                 @click="selectMonth(index)"
-                 v-for="(item,index) in monthList">
+            <div class="month" :class="{isnow: month == index && year == tempYear, disable: month > index && year == tempYear}" @click="selectMonth(index)" v-for="(item,index) in monthList">
               {{item}}
             </div>
           </div>
         </div>
-        <div class="year-panel"
-             v-show="showPanle == 'year'">
+        <div class="year-panel" v-show="showPanle == 'year'">
           <div class="switch-view">
             <div class="select">{{year}} - {{year + 11}}</div>
           </div>
           <div class="year-view">
-            <div class="year"
-                 :class="{isnow:year == item}"
-                 @click="selectYear(item)"
-                 v-for="item in yearList">{{item}}</div>
+            <div class="year" :class="{isnow:year == item}" @click="selectYear(item)" v-for="item in yearList">{{item}}</div>
           </div>
         </div>
       </div>
@@ -234,11 +206,6 @@ export default {
 <style lang="scss" scoped>
 #datepicker {
   user-select: none;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
 }
 
 .tittle-input {

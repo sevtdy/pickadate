@@ -1,5 +1,5 @@
 <template>
-  <div><!--"id=app"-->
+  <div id="app">
     <!--<datepicker></datepicker>-->
     <router-view></router-view>
   </div>
@@ -18,12 +18,12 @@ export default {
 </script>
 
 <style lang="scss">
-// #app {
-//   font-family: 'Avenir', Helvetica, Arial, sans-serif;
-//   -webkit-font-smoothing: antialiased;
-//   -moz-osx-font-smoothing: grayscale;
-//   text-align: center;
-//   color: #2c3e50;
-//   margin: 0px auto 0px auto;
-// }
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin: 0px auto 0px auto;
+}
 </style>

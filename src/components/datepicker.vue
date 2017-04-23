@@ -165,18 +165,12 @@ export default {
       }
     },
     submitPlan() {
-      let link
       this.formatData()
-      ref.push({
+      let link = ref.push({
         date: this.selectDate,
         tittle: this.planTittle
-      })
-      //获取push后的随机key后跳转页面
-      ref.once('child_added', (snapshot) => {
-        link = snapshot.key()
-        this.$router.push(link)
-      })
-
+      }).key()
+      this.$router.push(link)
     },
     formatData() {
       this.selectDate.sort(function (a, b) {

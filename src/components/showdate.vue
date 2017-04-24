@@ -8,30 +8,8 @@
     <div class="submit" v-else>
       <div class="submit-btn" @click="pushUserData()">Submit</div>
     </div>
-    <div>
-      <table>
-        <tr>
-          <th>日期</th>
-          <th v-for="item in date">|{{item.month}}/{{item.day}}|</th>
-        </tr>
-        <tr>
-          <td>
-            <input type="text" v-model="tempName">
-          </td>
-          <td v-for="num in dateLen">
-            <div class="checkbox" v-if="tempSelect[num-1]">✔</div>
-            <div class="checkbox" v-else>✖</div>
-          </td>
-        </tr>
-        <tr v-for="(item, index) in user">
-          <td v-show="!(item.id == userId)">{{item.name}}</td>
-          <td v-for="num in dateLen" v-show="!(item.id == userId)">
-            <div class="checkbox" v-if="item.select[num-1]">✔</div>
-            <div class="checkbox" v-else>✖</div>
-          </td>
-        </tr>
-      </table>
-    </div>
+    <!--start-->
+    <!--end-->
   </div>
 </template>
 
@@ -173,26 +151,5 @@ export default {
   border-bottom-width: 1px;
   border-left-width: 0px;
   border-color: #888888;
-}
-
-.row {
-  display: flex;
-  .right {
-    overflow-x: scroll;
-  }
-}
-
-.checkbox {
-  cursor: pointer;
-  color: white;
-  background-color: gray;
-}
-
-table {
-  border-collapse: collapse;
-  td,
-  th {
-    padding: 0px;
-  }
 }
 </style>

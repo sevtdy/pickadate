@@ -9,6 +9,36 @@
       <div class="submit-btn" @click="pushUserData()">Submit</div>
     </div>
     <!--start-->
+    <div class="t">
+      <div class="left">
+        <table>
+          <tbody>
+            <tr class="tr-left-first">
+              <td>日期</td>
+            </tr>
+            <tr class="tr-left-second">
+              <td>
+                <input type="text" v-model="tempName">
+              </td>
+            </tr>
+            <tr class="tr-left-other" v-for="u in user">
+              <td>{{u.name}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!--左右分割-->
+      <div class="right">
+        <table>
+          <tbody>
+            <tr class="tr-right-first">
+              <td v-for="item in date">{{item.month}}
+                <br>{{item.day}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
     <!--end-->
   </div>
 </template>
@@ -114,14 +144,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#showdate {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+.t {
+  display: flex;
 }
 
+.left {
+  width: 30%;
+  table {
+    width: 100%;
+  }
+}
+
+.right {
+  width: 100%;
+  overflow-x: scroll;
+  table {
+    width: 100%;
+  }
+}
+
+//================
 .submit {
   display: flex;
   justify-content: flex-end;

@@ -2,50 +2,12 @@
   <div id="showdate">
     <div class="tittle">{{planTittle}}</div>
     <div class="submit" v-if="hasLocalIdFlag">
-      <div class="submit-btn">Edit</div>
-      <div class="submit-btn" @click="updateUserdata()">Done</div>
+      <div class="submit-btn" @click="editBtn()" v-if="openEditFlag">Edit</div>
+      <div class="submit-btn" @click="updateUserdata()" v-else>Done</div>
     </div>
     <div class="submit" v-else>
       <div class="submit-btn" @click="pushUserData()">Submit</div>
     </div>
-    <!--<div class="row">
-        <div class="left">
-          <div>
-            <table>
-              <tr>
-                <td>date</td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="text" class="name-input" v-model.trim="tempName">
-                </td>
-              </tr>
-              <tr v-for="item in user" v-show="!(item.id == userId)">
-                <td>{{item.name}}</td>
-              </tr>
-            </table>
-          </div>
-        </div>
-        <div class="right">
-          <table>
-            <tr>
-              <td v-for="item in date">{{item.month}}/{{item.day}},</td>
-            </tr>
-            <tr>
-              <td v-for="num in dateLen">
-                <input type="checkbox" v-model="tempSelect[num-1]">
-              </td>
-            </tr>
-            <tr v-for="item in user" v-show="!(item.id == userId)">
-              <td v-for="num in dateLen">
-                <div class="checkbox" v-if="item.select[num-1]">✔</div>
-                <div class="checkbox" v-else>✖</div>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-      <hr>-->
     <div>
       <table>
         <tr>
@@ -94,6 +56,7 @@ export default {
       date: null,
       dateLen: null,
       hasLocalIdFlag: false,
+      openEditFlag: false,
       test: false
     }
   },
@@ -162,10 +125,10 @@ export default {
         select: this.tempSelect,
         name: this.tempName
       })
-      //flag
+      this.editBtn()
     },
     editBtn() {
-      //flag切换
+      this.openEditFlag = !this.openEditFlag
     }
   }
 
@@ -226,8 +189,10 @@ export default {
 }
 
 table {
-  border: 0px;
   border-collapse: collapse;
-  border-spacing: 0px;
+  td,
+  th {
+    padding: 0px;
+  }
 }
 </style>

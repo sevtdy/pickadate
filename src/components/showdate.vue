@@ -21,7 +21,7 @@
                 <input type="text" v-model="tempName">
               </td>
             </tr>
-            <tr class="tr-left-other" v-for="u in user">
+            <tr class="tr-left-other" v-for="u in user" v-show="u.id != userId">
               <td>{{u.name}}</td>
             </tr>
           </tbody>
@@ -32,8 +32,21 @@
         <table>
           <tbody>
             <tr class="tr-right-first">
-              <td v-for="item in date">{{item.month}}
-                <br>{{item.day}}</td>
+              <td v-for="item in date">
+                {{item.month}} /{{item.day}}
+              </td>
+            </tr>
+            <tr class="tr-right-second">
+              <td v-for="(item, index) in tempSelect" @click="changeSelect(index)">
+                <div v-if="item">√</div>
+                <div v-else>×</div>
+              </td>
+            </tr>
+            <tr class="tr-right-other" v-for="u in user" v-show="u.id != userId">
+              <td v-for="n in dateLen">
+                <div v-if="u.select[n-1]">√</div>
+                <div v-else>×</div>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -137,6 +150,9 @@ export default {
     },
     editBtn() {
       this.openEditFlag = !this.openEditFlag
+    },
+    changeSelect(index){
+      this.tempSelect[index] = ! this.tempSelect
     }
   }
 
@@ -148,10 +164,16 @@ export default {
   display: flex;
 }
 
-.left {
-  width: 30%;
-  table {
-    width: 100%;
+.tr-right-second{
+  td{
+    cursor: pointer;
+  }
+}
+
+table{
+  border-collapse: collapse;
+  td{
+    border: 1px solid black;
   }
 }
 

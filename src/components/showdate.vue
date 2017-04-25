@@ -151,8 +151,8 @@ export default {
     editBtn() {
       this.openEditFlag = !this.openEditFlag
     },
-    changeSelect(index){
-      this.tempSelect[index] = ! this.tempSelect
+    changeSelect(index) {
+      this.tempSelect.splice(index, 1, !this.tempSelect[index])
     }
   }
 
@@ -164,15 +164,15 @@ export default {
   display: flex;
 }
 
-.tr-right-second{
-  td{
+.tr-right-second {
+  td {
     cursor: pointer;
   }
 }
 
-table{
+table {
   border-collapse: collapse;
-  td{
+  td {
     border: 1px solid black;
   }
 }

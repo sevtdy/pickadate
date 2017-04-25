@@ -2,11 +2,11 @@
   <div id="showdate">
     <div class="tittle">{{planTittle}}</div>
     <div class="submit" v-if="hasLocalIdFlag">
-      <div class="submit-btn" @click="updateUserdata()" v-if="openEditFlag">Done</div>
-      <div class="submit-btn" @click="editBtn()" v-else>Edit</div>
+      <div class="submit-btn btn-green" @click="updateUserdata()" v-if="openEditFlag">Save</div>
+      <div class="submit-btn btn-blue" @click="editBtn()" v-else>Edit</div>
     </div>
     <div class="submit" v-else>
-      <div class="submit-btn" @click="pushUserData()">Submit</div>
+      <div class="submit-btn btn-green" @click="pushUserData()">Submit</div>
     </div>
     <!--start-->
     <div class="row">
@@ -18,7 +18,7 @@
             </tr>
             <tr class="tr-left-second">
               <td>
-                <input type="text" :class="{'name-input':!openEditFlag, 'name-input-focus': openEditFlag}" v-model="tempName" :readonly="!openEditFlag">
+                <input type="text" :class="{'name-input':!openEditFlag && hasLocalIdFlag, 'name-input-focus': openEditFlag || !hasLocalIdFlag}" v-model.trim="tempName" :readonly="!openEditFlag && hasLocalIdFlag">
               </td>
             </tr>
             <tr class="tr-left-other" v-for="u in user" v-show="u.id != userId">
@@ -139,13 +139,16 @@ export default {
       }
     },
     pushUserData() {
-      this.userId = ref.child(this.planId).child('user').push({
-        name: this.tempName,
-        select: this.tempSelect
-      }).key()
-      localStorage.setItem(this.planId + '||' + 'userId', this.userId)
-      this.hasLocalIdFlag = true
-      //可能愮一个flag控制disable
+      if (this.tempName) {
+        this.userId = ref.child(this.planId).child('user').push({
+          name: this.tempName,
+          select: this.tempSelect
+        }).key()
+        localStorage.setItem(this.planId + '||' + 'userId', this.userId)
+        this.hasLocalIdFlag = true
+      } else {
+        alert('填个名字呗');
+      }
     },
     updateUserdata() {
       ref.child(this.planId).child('user').child(this.userId).update({
@@ -192,7 +195,7 @@ table {
 
 .right {
   width: 100%;
-  overflow-x: scroll;
+  overflow-x: auto;
   table {
     width: 100%;
   }
@@ -231,20 +234,31 @@ table {
 .submit {
   display: flex;
   justify-content: flex-end;
+  margin: 1rem 0;
   .submit-btn {
-    background: #dbefdc;
-    color: #9aa49a;
+    transition: 0.6s;
+    color: #ffffff;
     border-radius: 3px;
-    padding: 6px;
+    padding: 0.4rem 1.3rem;
     cursor: pointer;
+    &:hover {
+      transition: 0.6s;
+      box-shadow: 0 1px 6px 0 rgba(0, 0, 0, .12), 0 1px 6px 0 rgba(0, 0, 0, .12);
+    }
+  }
+  .btn-green {
+    background-color: #4caf50;
+  }
+  .btn-blue {
+    background-color: #03a9f4;
   }
 }
 
 .tittle {
   color: #888888;
   text-align: left;
-  font-size: 1.2em;
-  line-height: 1.4em;
+  font-size: 1.4em;
+  padding: 0.8rem 0;
   border-width: 0px 0px 1px 0px;
   border-color: #888888;
   border-style: solid;

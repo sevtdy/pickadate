@@ -32,7 +32,7 @@
         <table>
           <tbody>
             <tr class="tr-right-first">
-              <td v-for="item in date">
+              <td v-for="(item, index) in date" :class="{tdgrey: index%2 != 0}">
                 {{item.month}} /{{item.day}}
               </td>
             </tr>
@@ -48,7 +48,7 @@
                 </div>
               </td>
             </tr>
-            <tr class="tr-right-other" v-for="u in user" v-show="u.id != userId" >
+            <tr class="tr-right-other" v-for="u in user" v-show="u.id != userId">
               <td v-for="n in dateLen" :class="{tdgreen: u.select[n-1], tdred: !u.select[n-1]}">
                 <div class="checkbox" v-if="u.select[n-1]">✔</div>
                 <div class="checkbox" v-else>✖</div>
@@ -170,9 +170,9 @@ export default {
   display: flex;
 }
 
-.left{
-  table{
-    box-shadow: 0 8px 17px 0 rgba(0,0,0,.2), 0 6px 20px 0 rgba(0,0,0,.19);
+.left {
+  table {
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19);
   }
 }
 
@@ -180,7 +180,7 @@ table {
   border-collapse: collapse;
   margin-right: 4px;
   td {
-    height: 40px;
+    height: 2.6rem;
     min-width: 30px;
   }
 }
@@ -194,14 +194,16 @@ table {
 }
 
 .checkbox {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   color: #9aa49a;
+  line-height: 1.2rem;
   user-select: none;
 }
 
 .checkbox-edit {
   display: inline-block;
-  font-size: 1.8rem;
+  line-height: 1.6rem;
+  font-size: 1.6rem;
   color: #2c3e50;
   span {
     cursor: pointer;
@@ -214,6 +216,10 @@ table {
 
 .tdred {
   background-color: #fdd6db;
+}
+
+.tdgrey {
+  background-color: #f5f5f5;
 }
 
 //按钮样式

@@ -1,6 +1,6 @@
 # pickatime
 
-> A Vue.js project
+> A Vue.js project,  [ufr.ee](ufr.ee)'s imitation.
 
 ## Build Setup
 

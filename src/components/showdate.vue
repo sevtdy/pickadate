@@ -9,7 +9,7 @@
       <div class="submit-btn" @click="pushUserData()">Submit</div>
     </div>
     <!--start-->
-    <div class="t">
+    <div class="row">
       <div class="left">
         <table>
           <tbody>
@@ -18,7 +18,7 @@
             </tr>
             <tr class="tr-left-second">
               <td>
-                <input type="text" class="name-input" v-model="tempName">
+                <input type="text" :class="{'name-input':!openEditFlag, 'name-input-focus': openEditFlag}" v-model="tempName" :readonly="!openEditFlag">
               </td>
             </tr>
             <tr class="tr-left-other" v-for="u in user" v-show="u.id != userId">
@@ -38,7 +38,7 @@
             </tr>
             <tr class="tr-right-second">
               <td v-for="(item, index) in tempSelect" :class="{tdgreen: item, tdred: !item}">
-                <div class="checkbox-edit" v-if="openEditFlag" @click="changeSelect(index)">
+                <div class="checkbox-edit" v-if="openEditFlag || !hasLocalIdFlag" @click="changeSelect(index)">
                   <span v-if="item">☑</span>
                   <span v-else>☐</span>
                 </div>
@@ -166,13 +166,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.t {
+.row {
   display: flex;
 }
 
 .left {
   table {
     box-shadow: 0 8px 17px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19);
+    text-align: left;
+    td {
+      padding-left: 5px;
+      padding-right: 5px;
+    }
   }
 }
 
@@ -246,12 +251,15 @@ table {
 }
 
 .name-input {
+  outline: none;
   height: 100%;
-  border-style: solid;
-  border-top-width: 0px;
-  border-right-width: 0px;
-  border-bottom-width: 1px;
-  border-left-width: 0px;
+  border: 0px;
+}
+
+.name-input-focus {
+  outline: none;
+  height: 100%;
+  border-width: 0px 0px 1px 0px;
   border-color: #888888;
 }
 </style>

@@ -2,8 +2,8 @@
   <div id="showdate">
     <div class="tittle">{{planTittle}}</div>
     <div class="submit" v-if="hasLocalIdFlag">
-      <div class="submit-btn" @click="editBtn()" v-if="openEditFlag">Edit</div>
-      <div class="submit-btn" @click="updateUserdata()" v-else>Done</div>
+      <div class="submit-btn" @click="updateUserdata()" v-if="openEditFlag">Done</div>
+      <div class="submit-btn" @click="editBtn()" v-else>Edit</div>
     </div>
     <div class="submit" v-else>
       <div class="submit-btn" @click="pushUserData()">Submit</div>
@@ -18,7 +18,7 @@
             </tr>
             <tr class="tr-left-second">
               <td>
-                <input type="text" v-model="tempName">
+                <input type="text" class="name-input" v-model="tempName">
               </td>
             </tr>
             <tr class="tr-left-other" v-for="u in user" v-show="u.id != userId">
@@ -37,15 +37,21 @@
               </td>
             </tr>
             <tr class="tr-right-second">
-              <td v-for="(item, index) in tempSelect" @click="changeSelect(index)">
-                <div v-if="item">√</div>
-                <div v-else>×</div>
+              <td v-for="(item, index) in tempSelect" :class="{tdgreen: item, tdred: !item}">
+                <div class="checkbox-edit" v-if="openEditFlag" @click="changeSelect(index)">
+                  <span v-if="item">☑</span>
+                  <span v-else>☐</span>
+                </div>
+                <div v-else>
+                  <div class="checkbox" v-if="item">✔</div>
+                  <div class="checkbox" v-else>✖</div>
+                </div>
               </td>
             </tr>
-            <tr class="tr-right-other" v-for="u in user" v-show="u.id != userId">
-              <td v-for="n in dateLen">
-                <div v-if="u.select[n-1]">√</div>
-                <div v-else>×</div>
+            <tr class="tr-right-other" v-for="u in user" v-show="u.id != userId" >
+              <td v-for="n in dateLen" :class="{tdgreen: u.select[n-1], tdred: !u.select[n-1]}">
+                <div class="checkbox" v-if="u.select[n-1]">✔</div>
+                <div class="checkbox" v-else>✖</div>
               </td>
             </tr>
           </tbody>
@@ -164,16 +170,18 @@ export default {
   display: flex;
 }
 
-.tr-right-second {
-  td {
-    cursor: pointer;
+.left{
+  table{
+    box-shadow: 0 8px 17px 0 rgba(0,0,0,.2), 0 6px 20px 0 rgba(0,0,0,.19);
   }
 }
 
 table {
   border-collapse: collapse;
+  margin-right: 4px;
   td {
-    border: 1px solid black;
+    height: 40px;
+    min-width: 30px;
   }
 }
 
@@ -185,7 +193,30 @@ table {
   }
 }
 
-//================
+.checkbox {
+  font-size: 1.3rem;
+  color: #9aa49a;
+  user-select: none;
+}
+
+.checkbox-edit {
+  display: inline-block;
+  font-size: 1.8rem;
+  color: #2c3e50;
+  span {
+    cursor: pointer;
+  }
+}
+
+.tdgreen {
+  background-color: #c9facd;
+}
+
+.tdred {
+  background-color: #fdd6db;
+}
+
+//按钮样式
 .submit {
   display: flex;
   justify-content: flex-end;
@@ -209,6 +240,7 @@ table {
 }
 
 .name-input {
+  height: 100%;
   border-style: solid;
   border-top-width: 0px;
   border-right-width: 0px;

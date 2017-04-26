@@ -35,7 +35,8 @@
           <tbody>
             <tr class="tr-right-first">
               <td v-for="(item, index) in date" :class="{tdgrey: index%2 == 0}">
-                {{item.month}} /{{item.day}}
+                {{item.year}} {{monthList[item.month]}}
+                <br> {{item.day}}
               </td>
             </tr>
             <tr class="tr-right-second">
@@ -71,7 +72,6 @@ wilddog.initializeApp({
 })
 var ref = wilddog.sync().ref('/')
 
-//第一个user没有显示
 export default {
   name: 'showdate',
   data() {
@@ -86,7 +86,7 @@ export default {
       dateLen: null,
       hasLocalIdFlag: false,
       openEditFlag: false,
-      test: false
+      monthList: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     }
   },
   created() {
@@ -175,8 +175,18 @@ export default {
   display: flex;
 }
 
+table {
+  border-collapse: collapse;
+  width: 100%;
+  td {
+    // border: 1px solid black;
+    height: 2.6rem;
+  }
+}
+
 .left {
-  min-width: 20%;
+  min-width: 15%;
+    margin-right: 4px;
   table {
     box-shadow: 0 8px 17px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19);
     text-align: left;
@@ -187,21 +197,23 @@ export default {
   }
 }
 
-table {
-  border-collapse: collapse;
-  margin-right: 4px;
-  td {
-    height: 2.6rem;
-    min-width: 30px;
-  }
-}
-
 .right {
   width: 100%;
   overflow-x: auto;
-  table {
-    width: 100%;
+  td {
+    min-width: 4rem; //要根据date更改
   }
+}
+
+.tr-left-first {
+  text-align: right;
+  font-size: 14px;
+  height: 2rem;
+}
+
+.tr-right-first {
+  font-size: 14px;
+  height: 2rem;
 }
 
 .checkbox {

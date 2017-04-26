@@ -22,7 +22,9 @@
               </td>
             </tr>
             <tr class="tr-left-other" v-for="u in user" v-show="u.id != userId">
-              <td>{{u.name}}</td>
+              <td>
+                <input class="name-input" v-model="u.name">
+              </td>
             </tr>
           </tbody>
         </table>
@@ -32,7 +34,7 @@
         <table>
           <tbody>
             <tr class="tr-right-first">
-              <td v-for="(item, index) in date" :class="{tdgrey: index%2 != 0}">
+              <td v-for="(item, index) in date" :class="{tdgrey: index%2 == 0}">
                 {{item.month}} /{{item.day}}
               </td>
             </tr>
@@ -174,6 +176,7 @@ export default {
 }
 
 .left {
+  min-width: 20%;
   table {
     box-shadow: 0 8px 17px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19);
     text-align: left;
@@ -268,6 +271,7 @@ table {
   outline: none;
   height: 100%;
   border: 0px;
+  width: 100%;
 }
 
 .name-input-focus {
@@ -275,5 +279,6 @@ table {
   height: 100%;
   border-width: 0px 0px 1px 0px;
   border-color: #888888;
+  width: 100%;
 }
 </style>

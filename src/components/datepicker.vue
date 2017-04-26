@@ -26,9 +26,9 @@
         </div>
         <div class="month-panel" v-show="showPanle == 'month'">
           <div class="switch-view">
-            <div class="arrow" :class="{disable: year >= tempYear}" @click="selectPrev()">prev</div>
+            <div class="arrow" :class="{disable: year >= tempYear}" @click="selectPrev()">«</div>
             <div class="select" @click="switchYear()">{{tempYear}}</div>
-            <div class="arrow" :class="{disable: year+11 <= tempYear}" @click="selectNext()">next</div>
+            <div class="arrow" :class="{disable: year+11 <= tempYear}" @click="selectNext()">»</div>
           </div>
           <div class="month-view">
             <div class="month" :class="{isnow: month == index && year == tempYear, disable: month > index && year == tempYear}" @click="selectMonth(index)" v-for="(item,index) in monthList">
@@ -231,7 +231,6 @@ export default {
   }
   .select {
     flex-grow: 1;
-    margin: 0 auto;
     margin: 0.4rem;
     padding: 3px;
     border-radius: 3px;
@@ -246,10 +245,12 @@ export default {
   justify-content: space-between;
   flex-wrap: wrap;
   font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 0.4rem;
   .week {
     width: 12.8%;
     margin: 0.1%;
-    line-height: 4.5vh;
+    line-height: 2rem;
   }
 }
 
@@ -257,10 +258,11 @@ export default {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  font-size: 14px;
   .day {
     width: 12.8%;
     margin: 0.1%;
-    line-height: 4vh;
+    line-height: 1.8rem;
     cursor: pointer;
   }
   div:hover {
@@ -275,8 +277,8 @@ export default {
   flex-wrap: wrap;
   .month {
     width: 20%;
-    margin: 4px;
-    line-height: 6vh;
+    margin: 0.4rem;
+    line-height: 3.4rem;
     cursor: pointer;
   }
   div:hover {
@@ -291,8 +293,8 @@ export default {
   flex-wrap: wrap;
   .year {
     width: 20%;
-    margin: 4px;
-    line-height: 6vh;
+    margin: 0.4rem;
+    line-height: 3.4rem;
     cursor: pointer;
   }
   div:hover {

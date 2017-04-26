@@ -1,18 +1,20 @@
 <template>
   <div id="datepicker">
-    <input type="text" v-model="planTittle" class="tittle-input" placeholder="what's the plan?">
+    <input type="text" v-model.trim="planTittle" class="tittle-input" placeholder="what's the plan?">
     <div class="submit">
-      <div class="submit-tips">▲输入标题</div>
-      <div class="submit-button" :class="{disable:selectDate.length == 0}" @click="submitPlan">提交</div>
+      <div class="submit-tips" v-if="planTittle.length == 0">▲输入一个标题</div>
+      <div class="submit-tips" v-else-if="selectDate.length == 0">▼选择日期</div>
+      <div class="submit-tips" v-else>{{selectDate.length}} dates select</div>
+      <div class="submit-button" :class="{disable:selectDate.length == 0 ||  planTittle.length == 0}" @click="submitPlan">NEXT</div>
     </div>
     <div class="panel">
-      <div class="panel-tittle"><span>选时间</span></div>
+      <div class="panel-tittle"><span>when?</span></div>
       <div class="panel-body">
         <div class="day-panel" v-show="showPanle == 'day'">
           <div class="switch-view">
-            <div class="arrow" :class="{disable:year >= tempYear && month >= tempMonth}" @click="selectPrev()">prev</div>
+            <div class="arrow" :class="{disable:year >= tempYear && month >= tempMonth}" @click="selectPrev()">«</div>
             <div class="select" @click="switchMonth()">{{tempYear}} {{monthList[tempMonth]}}</div>
-            <div class="arrow" :class="{disable:year+11 <= tempYear}" @click="selectNext()">next</div>
+            <div class="arrow" :class="{disable:year+11 <= tempYear}" @click="selectNext()">»</div>
           </div>
           <div class="week-view">
             <div class="week" v-for="item in weekList">{{item}}</div>
@@ -203,35 +205,34 @@ export default {
 }
 
 .tittle-input {
-  border-style: solid;
-  border-top-width: 0px;
-  border-right-width: 0px;
-  border-bottom-width: 1.5px;
-  border-left-width: 0px;
+  border-width: 0 0 1px 0;
   border-color: #888888;
   width: 100%;
-  margin-bottom: 10px;
   font-size: 1.2em;
-  line-height: 1.6em;
+  padding: 0.8rem 0;
   outline: none;
+  &:focus {
+    border-color: black;
+  }
 }
 
 .switch-view {
   display: flex;
   justify-content: space-between;
   font-weight: 700;
-  line-height: 5vh;
+  line-height: 1.8rem;
   cursor: pointer;
   .arrow {
+    width: 12.8%;
     flex-grow: 0;
-    margin: 4px;
+    margin: 0.4rem 0;
     padding: 3px;
     border-radius: 3px;
   }
   .select {
     flex-grow: 1;
     margin: 0 auto;
-    margin: 4px;
+    margin: 0.4rem;
     padding: 3px;
     border-radius: 3px;
   }
@@ -301,35 +302,41 @@ export default {
 }
 
 .panel {
-  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, .12), 0 1px 6px 0 rgba(0, 0, 0, .12)
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, .12), 0 1px 6px 0 rgba(0, 0, 0, .12);
+  margin: 0 0.4rem;
 }
 
 .panel-tittle {
   border-radius: 4px 4px 0 0;
   text-align: left;
   background-color: #eeeeee;
-  span {
-    line-height: 6vh;
-  }
+  padding: 0.8rem;
+}
+
+.panel-body {
+  padding: 0.4rem;
 }
 
 .submit {
   display: flex;
   justify-content: space-between;
-  margin: 0px 6px 6px 0px;
-  line-height: 1.4em;
+  margin: 1rem 0.2rem;
+  line-height: 1rem;
+  align-items: baseline;
   .submit-tips {
-    padding: 4px 6px 4px 6px;
+    padding: 0.5rem;
     color: white;
-    background-color: #888888;
+    background-color: #a9a9a9;
     border-radius: 3px;
   }
   .submit-button {
-    background: #dbefdc;
-    color: #9aa49a;
+    background-color: #c8e6c9;
     border-radius: 3px;
-    padding: 6px;
+    padding: 0.5rem 1.3rem;
     cursor: pointer;
+    &:hover {
+      box-shadow: 0 1px 6px 0 rgba(0, 0, 0, .12), 0 1px 6px 0 rgba(0, 0, 0, .12);
+    }
   }
 }
 

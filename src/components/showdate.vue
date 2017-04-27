@@ -18,7 +18,7 @@
             </tr>
             <tr class="tr-left-second">
               <td>
-                <input type="text" :class="{'name-input':!openEditFlag && hasLocalIdFlag, 'name-input-focus': openEditFlag || !hasLocalIdFlag}" v-model.trim="tempName" :readonly="!openEditFlag && hasLocalIdFlag">
+                <input type="text" placeholder="你的名字？" :class="{'name-input':!openEditFlag && hasLocalIdFlag, 'name-input-focus': openEditFlag || !hasLocalIdFlag}" v-model.trim="tempName" :readonly="!openEditFlag && hasLocalIdFlag">
               </td>
             </tr>
             <tr class="tr-left-other" v-for="u in user" v-show="u.id != userId">
@@ -34,7 +34,7 @@
         <table>
           <tbody>
             <tr class="tr-right-first">
-              <td v-for="(item, index) in date" :class="{tdgrey: index%2 == 0}">
+              <td v-for="(item, index) in date" :class="{tdgrey: index%2 == 0, mostSelect: isMostSelect[index]}">
                 {{item.year}} {{monthList[item.month]}}
                 <br> {{item.day}}
               </td>
@@ -110,14 +110,7 @@ export default {
     syncUserData() {
       ref.child(this.planId).child('user').on('value', (snapshot) => {
         let tempuser = []
-        let num = 0
         snapshot.forEach((childSnapshot) => {
-          // this.user[num] = {
-          //   id: childSnapshot.key(),
-          //   name: childSnapshot.val().name,
-          //   select: childSnapshot.val().select
-          // }
-          // num++
           tempuser.push({
             id: childSnapshot.key(),
             name: childSnapshot.val().name,
@@ -165,6 +158,29 @@ export default {
     changeSelect(index) {
       this.tempSelect.splice(index, 1, !this.tempSelect[index])
     }
+  },
+  computed: {
+    //找出选择最多的天数
+    isMostSelect() {
+      let maxArray = Array.from({ length: this.dateLen }, () => 0)
+      for (var i = 0; i < this.user.length; i++) {
+        for (var j = 0; j < this.dateLen; j++) {
+          if (this.user[i].select[j] == true) {
+            maxArray[j]++
+          }
+        }
+      }
+      let maxNum = Math.max.apply(null, maxArray)
+      let list = []
+      for (let i = 0; i < this.dateLen; i++) {
+        if (maxArray[i] == maxNum) {
+          list.push(true)
+        } else {
+          list.push(false)
+        }
+      }
+      return list
+    }
   }
 
 }
@@ -186,7 +202,7 @@ table {
 
 .left {
   min-width: 15%;
-    margin-right: 4px;
+  margin-right: 4px;
   table {
     box-shadow: 0 8px 17px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19);
     text-align: left;
@@ -292,5 +308,10 @@ table {
   border-width: 0px 0px 1px 0px;
   border-color: #888888;
   width: 100%;
+}
+
+.mostSelect {
+  font-weight: 700;
+  color: #3e9041;
 }
 </style>

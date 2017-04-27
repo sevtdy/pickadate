@@ -20,7 +20,7 @@
             <div class="week" v-for="item in weekList">{{item}}</div>
           </div>
           <div class="day-view">
-            <div class="day" :class="{isnow:day == item.value && month == tempMonth && year == tempYear, disable:item.previousMonth || item.nextMonth || (day > item.value && year >= tempYear && month >= tempMonth), isselect: isSelect(item)}" @click="selectDay(item)" v-for="item in dayList">{{item.value}}
+            <div class="day" :class="{isnow:isNow('day', item), disable:item.previousMonth || item.nextMonth || (day > item.value && year >= tempYear && month >= tempMonth), isselect: isSelect(item)}" @click="selectDay(item)" v-for="item in dayList">{{item.value}}
             </div>
           </div>
         </div>
@@ -31,7 +31,7 @@
             <div class="arrow" :class="{disable: year+11 <= tempYear}" @click="selectNext()">»</div>
           </div>
           <div class="month-view">
-            <div class="month" :class="{isnow: month == index && year == tempYear, disable: month > index && year == tempYear}" @click="selectMonth(index)" v-for="(item,index) in monthList">
+            <div class="month" :class="{isnow:isNow('month',index), disable: month > index && year == tempYear}" @click="selectMonth(index)" v-for="(item,index) in monthList">
               {{item}}
             </div>
           </div>
@@ -41,7 +41,7 @@
             <div class="select">{{year}} - {{year + 11}}</div>
           </div>
           <div class="year-view">
-            <div class="year" :class="{isnow:year == item}" @click="selectYear(item)" v-for="item in yearList">{{item}}</div>
+            <div class="year" :class="{isnow:isNow('year',item)}" @click="selectYear(item)" v-for="item in yearList">{{item}}</div>
           </div>
         </div>
       </div>
@@ -140,6 +140,28 @@ export default {
           }
         }
         if (flag == 0) { return false } else { return true }
+      }
+    },
+    isNow(type, v) {
+      switch (type) {
+        case 'day':
+          if (this.day == v.value && v.currentMonth && this.year == this.tempYear) {
+            return true
+          } else {
+            return false
+          }
+        case 'month':
+          if (this.month == v && this.year == this.tempYear) {
+            return true
+          } else {
+            return false
+          }
+        case 'year':
+          if (this.year == v) {
+            return true
+          } else {
+            return false
+          }
       }
     },
     selectNext() {

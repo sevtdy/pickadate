@@ -1,6 +1,6 @@
-# pickatime
+# pickadate
 
-> A Vue.js project,  [ufr.ee](ufr.ee)'s imitation.
+> A Vue.js project, imitation of [ufr.ee](http://ufr.ee).
 
 ## Build Setup
 

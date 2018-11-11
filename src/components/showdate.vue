@@ -21,7 +21,7 @@
                 <input type="text" placeholder="你的名字？" :class="{'name-input':!openEditFlag && hasLocalIdFlag, 'name-input-focus': openEditFlag || !hasLocalIdFlag}" v-model.trim="tempName" :readonly="!openEditFlag && hasLocalIdFlag">
               </td>
             </tr>
-            <tr class="tr-left-other" v-for="u in user" v-show="u.id != userId">
+            <tr class="tr-left-other" v-for="(u, index) in user" v-bind:key="index" v-show="u.id != userId">
               <td>
                 <input class="name-input" v-model="u.name">
               </td>
@@ -34,13 +34,13 @@
         <table>
           <tbody>
             <tr class="tr-right-first">
-              <td v-for="(item, index) in date" :class="{tdgrey: index%2 == 0, mostSelect: isMostSelect[index]}">
+              <td v-for="(item, index) in date" v-bind:key="index" :class="{tdgrey: index%2 == 0, mostSelect: isMostSelect[index]}">
                 {{item.year}} {{monthList[item.month]}}
                 <br> {{item.day}}
               </td>
             </tr>
             <tr class="tr-right-second">
-              <td v-for="(item, index) in tempSelect" :class="{tdgreen: item, tdred: !item}">
+              <td v-for="(item, index) in tempSelect" v-bind:key="index" :class="{tdgreen: item, tdred: !item}">
                 <div class="checkbox-edit" v-if="openEditFlag || !hasLocalIdFlag" @click="changeSelect(index)">
                   <span v-if="item">☑</span>
                   <span v-else>☐</span>
@@ -51,8 +51,8 @@
                 </div>
               </td>
             </tr>
-            <tr class="tr-right-other" v-for="u in user" v-show="u.id != userId">
-              <td v-for="n in dateLen" :class="{tdgreen: u.select[n-1], tdred: !u.select[n-1]}">
+            <tr class="tr-right-other" v-for="(u, index) in user" v-bind:key="index" v-show="u.id != userId">
+              <td v-for="(n, index) in dateLen" v-bind:key="index" :class="{tdgreen: u.select[n-1], tdred: !u.select[n-1]}">
                 <div class="checkbox" v-if="u.select[n-1]">✔</div>
                 <div class="checkbox" v-else>✖</div>
               </td>
@@ -68,122 +68,147 @@
 <script>
 //初始化野狗
 wilddog.initializeApp({
-  syncURL: 'https://pickatime.wilddogio.com'
-})
-var ref = wilddog.sync().ref('/')
+  syncURL: "https://pickatime.wilddogio.com"
+});
+var ref = wilddog.sync().ref("/");
 
 export default {
-  name: 'showdate',
+  name: "showdate",
   data() {
     return {
       planId: null,
-      planTittle: '',
+      planTittle: "",
       user: [],
-      userId: '',
-      tempName: '',
+      userId: "",
+      tempName: "",
       tempSelect: [],
       date: null,
       dateLen: null,
       hasLocalIdFlag: false,
       openEditFlag: false,
-      monthList: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-    }
+      monthList: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+      ]
+    };
   },
   created() {
-    this.planId = (window.location.pathname).replace(/\//, '')
-    ref.once('value').then((snapshot) => {
-      let hasPlanId = snapshot.hasChild(this.planId)
+    // this.planId = window.location.pathname.replace(/\//, "");
+    this.planId = this.$route.params.id;
+    console.log(this.planId);
+    ref.once("value").then(snapshot => {
+      let hasPlanId = snapshot.hasChild(this.planId);
       if (!hasPlanId) {
-        this.$router.push('/error')
+        this.$router.push("/error");
       } else {
-        this.planTittle = snapshot.child(this.planId).val().tittle
-        this.date = snapshot.child(this.planId).val().date
-        this.dateLen = this.date.length
+        this.planTittle = snapshot.child(this.planId).val().tittle;
+        this.date = snapshot.child(this.planId).val().date;
+        this.dateLen = this.date.length;
         for (var i = 0; i < this.dateLen; i++) {
-          this.tempSelect.push(false)
+          this.tempSelect.push(false);
         }
-        this.syncUserData()
+        this.syncUserData();
       }
-    })
+    });
   },
   methods: {
     syncUserData() {
-      ref.child(this.planId).child('user').on('value', (snapshot) => {
-        let tempuser = []
-        snapshot.forEach((childSnapshot) => {
-          tempuser.push({
-            id: childSnapshot.key(),
-            name: childSnapshot.val().name,
-            select: childSnapshot.val().select
-          })
-          this.user = tempuser
-        })
-        this.isHasLocalUerId()
-      })
+      ref
+        .child(this.planId)
+        .child("user")
+        .on("value", snapshot => {
+          let tempuser = [];
+          snapshot.forEach(childSnapshot => {
+            tempuser.push({
+              id: childSnapshot.key(),
+              name: childSnapshot.val().name,
+              select: childSnapshot.val().select
+            });
+            this.user = tempuser;
+          });
+          this.isHasLocalUerId();
+        });
     },
     isHasLocalUerId() {
-      if (localStorage.getItem(this.planId + '||' + 'userId')) {
-        this.userId = localStorage.getItem(this.planId + '||' + 'userId')
+      if (localStorage.getItem(this.planId + "||" + "userId")) {
+        this.userId = localStorage.getItem(this.planId + "||" + "userId");
         for (let i = 0; i < this.user.length; i++) {
           if (this.user[i].id == this.userId) {
-            this.tempName = this.user[i].name
-            this.tempSelect = this.user[i].select
-            this.hasLocalIdFlag = true
+            this.tempName = this.user[i].name;
+            this.tempSelect = this.user[i].select;
+            this.hasLocalIdFlag = true;
           }
         }
       }
     },
     pushUserData() {
       if (this.tempName) {
-        this.userId = ref.child(this.planId).child('user').push({
-          name: this.tempName,
-          select: this.tempSelect
-        }).key()
-        localStorage.setItem(this.planId + '||' + 'userId', this.userId)
-        this.hasLocalIdFlag = true
+        this.userId = ref
+          .child(this.planId)
+          .child("user")
+          .push({
+            name: this.tempName,
+            select: this.tempSelect
+          })
+          .key();
+        localStorage.setItem(this.planId + "||" + "userId", this.userId);
+        this.hasLocalIdFlag = true;
       } else {
-        alert('填个名字呗');
+        alert("填个名字呗");
       }
     },
     updateUserdata() {
-      ref.child(this.planId).child('user').child(this.userId).update({
-        select: this.tempSelect,
-        name: this.tempName
-      })
-      this.editBtn()
+      ref
+        .child(this.planId)
+        .child("user")
+        .child(this.userId)
+        .update({
+          select: this.tempSelect,
+          name: this.tempName
+        });
+      this.editBtn();
     },
     editBtn() {
-      this.openEditFlag = !this.openEditFlag
+      this.openEditFlag = !this.openEditFlag;
     },
     changeSelect(index) {
-      this.tempSelect.splice(index, 1, !this.tempSelect[index])
+      this.tempSelect.splice(index, 1, !this.tempSelect[index]);
     }
   },
   computed: {
     //找出选择最多的天数
     isMostSelect() {
-      let maxArray = Array.from({ length: this.dateLen }, () => 0)
+      let maxArray = Array.from({ length: this.dateLen }, () => 0);
       for (var i = 0; i < this.user.length; i++) {
         for (var j = 0; j < this.dateLen; j++) {
           if (this.user[i].select[j] == true) {
-            maxArray[j]++
+            maxArray[j]++;
           }
         }
       }
-      let maxNum = Math.max.apply(null, maxArray)
-      let list = []
+      let maxNum = Math.max.apply(null, maxArray);
+      let list = [];
       for (let i = 0; i < this.dateLen; i++) {
         if (maxArray[i] == maxNum) {
-          list.push(true)
+          list.push(true);
         } else {
-          list.push(false)
+          list.push(false);
         }
       }
-      return list
+      return list;
     }
   }
-
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -204,7 +229,8 @@ table {
   min-width: 15%;
   margin-right: 4px;
   table {
-    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19);
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2),
+      0 6px 20px 0 rgba(0, 0, 0, 0.19);
     text-align: left;
     td {
       padding-left: 5px;
@@ -274,7 +300,8 @@ table {
     cursor: pointer;
     &:hover {
       transition: 0.6s;
-      box-shadow: 0 1px 6px 0 rgba(0, 0, 0, .12), 0 1px 6px 0 rgba(0, 0, 0, .12);
+      box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12),
+        0 1px 6px 0 rgba(0, 0, 0, 0.12);
     }
   }
   .btn-green {

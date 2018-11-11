@@ -7,5 +7,5 @@ export default [
   { path: '/', component: hello },
   { path: '/create', component: datepicker },
   { path: '/error', component: errorpage },
-  { path: '*', component: showdate }
+  { path: '/:id', component: showdate }
 ]
